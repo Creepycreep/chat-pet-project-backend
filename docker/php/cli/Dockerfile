@@ -1,4 +1,4 @@
-FROM php:8.3-cli-alpine3.19
+FROM php:8.3.16-cli-alpine3.20
 
 WORKDIR /var/www/html
 

@@ -1,25 +1,58 @@
+name: chat-pet-pr
 
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-16}-alpine
+  postgres:
+    container_name: ${COMPOSE_PROJECT_NAME}-postgres
+    image: postgres:14-alpine
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
-    healthcheck:
-      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
-      timeout: 5s
-      retries: 5
-      start_period: 60s
-    volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      POSTGRES_DB: chat-pet-pr
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_INITDB_ARGS: --encoding=UTF8 --lc-collate=ru_RU.UTF-8 --lc-ctype=ru_RU.UTF-8
+    ports:
+      - target: 5432
+        published: 5432
 
-volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
+#  php-fpm:
+#    container_name: ${COMPOSE_PROJECT_NAME}-php-fpm
+#    user: "1000:1000"
+#    build:
+#      context: ./../
+#      dockerfile: ./docker/php/fpm/Dockerfile
+#    volumes:
+#      - type: bind
+#        source: ./../app/
+#        target: /var/www/html/
+#    env_file: ./../app/.env.test
+
+  php-cli:
+    container_name: ${COMPOSE_PROJECT_NAME}-php-cli
+    user: "1000:1000"
+    build:
+      context: ./../
+      dockerfile: ./docker/php/cli/Dockerfile
+    volumes:
+      - type: bind
+        source: ./../app/
+        target: /var/www/html/
+    env_file: ./../app/.env.local
+
+  composer:
+    container_name: ${COMPOSE_PROJECT_NAME}-composer
+    image: composer:2.6.6
+    command: [install, --ignore-platform-reqs]
+    volumes:
+      - type: bind
+        source: ./../app/
+        target: /app
+
+  nginx:
+    container_name: ${COMPOSE_PROJECT_NAME}-nginx
+    build:
+      context: ./
+      dockerfile: nginx/Dockerfile
+    environment:
+      PHP_FPM_HOST: php-fpm
+    ports:
+      - target: 80
+        published: 8080

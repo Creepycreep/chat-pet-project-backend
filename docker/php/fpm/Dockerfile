@@ -9,7 +9,7 @@ RUN composer install --no-interaction --no-progress --no-scripts --no-plugins --
 COPY ./app/src ./src
 RUN composer dump-autoload --classmap-authoritative --no-scripts --no-interaction
 
-FROM php:8.3-fpm-alpine3.19
+FROM php:8.4-fpm-alpine3.19
 
 WORKDIR /var/www/html
 
