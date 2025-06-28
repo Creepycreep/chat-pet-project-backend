@@ -1,6 +1,5 @@
 #!/usr/bin/env php
 <?php
-
 use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
@@ -19,3 +18,4 @@ return function (array $context) {
 
     return new Application($kernel);
 };
+
