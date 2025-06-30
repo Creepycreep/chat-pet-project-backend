@@ -11,6 +11,9 @@ readonly class CreateMessageService
 {
     public function __construct(public MessageRepository $repository) {}
 
+    /**
+     * @psalm-param non-empty-string $text
+     */
     public function create(string $text): Message
     {
         $message = new Message($text);

@@ -13,5 +13,6 @@ services:
     App\:
         resource: '../src/'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\Domain\Message\Service\:
+        resource: '../src/Domain/Message/Service/'
+        public: true
