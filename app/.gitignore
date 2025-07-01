@@ -16,3 +16,4 @@
 /phpunit.xml
 tests/.phpunit.cache/
 ###< phpunit/phpunit ###
+../.idea/
