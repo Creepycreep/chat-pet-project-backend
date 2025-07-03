@@ -1,1 +1,1 @@
-{"version":1,"defects":{"App\\Tests\\Functional\\Domain\\Message\\CreateMessageServiceTest::testSuccess":8},"times":{"App\\Tests\\Functional\\Domain\\Message\\CreateMessageServiceTest::testSuccess":0.483}}
+{"version":1,"defects":{"App\\Tests\\Functional\\Domain\\Message\\CreateMessageServiceTest::testSuccess":8,"App\\Tests\\Functional\\Domain\\User\\CreateUserServiceTest::testSuccess":8},"times":{"App\\Tests\\Functional\\Domain\\Message\\CreateMessageServiceTest::testSuccess":1.235,"App\\Tests\\Functional\\Domain\\User\\CreateUserServiceTest::testSuccess":0.151}}

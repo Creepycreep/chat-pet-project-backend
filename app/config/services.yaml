@@ -16,3 +16,7 @@ services:
     App\Domain\Message\Service\:
         resource: '../src/Domain/Message/Service/'
         public: true
+
+    App\Domain\User\Service\:
+        resource: '../src/Domain/User/Service/'
+        public: true
