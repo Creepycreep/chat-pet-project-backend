@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Domain\Message;
 
 use App\Domain\Message\Service\CreateMessageService;
+use App\Tests\BaseTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @internal
  */
 #[CoversClass(CreateMessageService::class)]
-final class CreateMessageServiceTest extends WebTestCase
+final class CreateMessageServiceTest extends BaseTestCase
 {
     public function testSuccess(): void
     {
@@ -21,8 +21,8 @@ final class CreateMessageServiceTest extends WebTestCase
          * @psalm-var non-empty-string $text
          */
         $text = 'message';
-        $message = self::getContainer()->get(CreateMessageService::class)->create($text);
-        self::getContainer()->get(EntityManagerInterface::class)->flush();
+        $message = $this->getService(CreateMessageService::class)->create($text);
+        $this->getService(EntityManagerInterface::class)->flush();
 
         self::assertSame($text, $message->text);
     }
