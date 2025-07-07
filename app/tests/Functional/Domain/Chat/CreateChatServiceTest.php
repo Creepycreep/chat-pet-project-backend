@@ -2,28 +2,32 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\Domain\User;
+namespace App\Tests\Functional\Domain\Chat;
 
+use App\Domain\Chat\Service\CreateChatService;
 use App\Domain\User\Service\CreateUserService;
 use App\Tests\BaseTestCase;
+use App\Tests\Builder\ChatBuilder;
+use App\Tests\Builder\UserBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * @internal
  */
-#[CoversClass(CreateUserService::class)]
-final class CreateUserServiceTest extends BaseTestCase
+#[CoversClass(CreateChatService::class)]
+final class CreateChatServiceTest extends BaseTestCase
 {
     public function testSuccess(): void
     {
-        /**
-         * @psalm-var non-empty-string $nickname
-         */
-        $nickname = 'Liza';
-        $user = $this->getService(CreateUserService::class)->create($nickname);
+        $user1 = $this->getService(UserBuilder::class)->build();
+        $user2 = $this->getService(UserBuilder::class)->build();
+
+        $chat = $this->getService(CreateChatService::class)->create([$user1, $user2]);
+
         $this->getService(EntityManagerInterface::class)->flush();
 
-        self::assertSame($nickname, $user->nickname);
+        self::assertTrue($chat->participants->contains($user1));
+        self::assertTrue($chat->participants->contains($user2));
     }
 }

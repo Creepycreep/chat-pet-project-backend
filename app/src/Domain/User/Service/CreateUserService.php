@@ -9,7 +9,9 @@ use App\Domain\User\User;
 
 readonly class CreateUserService
 {
-    public function __construct(public UserRepository $repository) {}
+    public function __construct(public UserRepository $repository)
+    {
+    }
 
     /**
      * @psalm-param non-empty-string $nickname

@@ -2,30 +2,30 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Message\Repository;
+namespace App\Domain\Chat\Repository;
 
-use App\Domain\Message\Message;
+use App\Domain\Chat\Chat;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Message>
+ * @extends ServiceEntityRepository<Chat>
  */
-class MessageRepository extends ServiceEntityRepository
+class ChatRepository extends ServiceEntityRepository
 {
     /**
      * @psalm-suppress PossiblyUnusedParam
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Message::class);
+        parent::__construct($registry, Chat::class);
     }
 
     /**
      * @psalm-suppress PossiblyUnusedParam
      */
-    public function add(Message $message): void
+    public function add(Chat $chat): void
     {
-        $this->getEntityManager()->persist($message);
+        $this->getEntityManager()->persist($chat);
     }
 }

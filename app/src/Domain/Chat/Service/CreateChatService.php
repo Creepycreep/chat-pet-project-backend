@@ -2,26 +2,30 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Service;
+namespace App\Domain\Chat\Service;
 
-use App\Domain\User\Repository\UserRepository;
+use App\Domain\Chat\Chat;
+use App\Domain\Chat\Repository\ChatRepository;
 use App\Domain\User\User;
 
-readonly class CreateUserService
+readonly class CreateChatService
 {
-    public function __construct(public UserRepository $repository)
-    {
-    }
+    public function __construct(public ChatRepository $repository) {}
 
     /**
-     * @psalm-param non-empty-string $nickname
+     * @psalm-param list<User> $participants
      */
-    public function create(string $nickname): User
+    public function create(array $participants): Chat
     {
-        $user = new User($nickname);
+        $chat = new Chat();
 
-        $this->repository->add($user);
+        foreach ($participants as $participant) {
+            $chat->participants->add($participant);
+            $participant->chats->add($chat);
+        }
 
-        return $user;
+        $this->repository->add($chat);
+
+        return $chat;
     }
 }

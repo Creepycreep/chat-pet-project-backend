@@ -4,24 +4,20 @@ declare(strict_types=1);
 
 namespace App\Tests\Builder;
 
-use App\Domain\Common\Enum\RolesEnum;
-use App\Domain\Common\ValueObject\Email;
-use App\Domain\Office\Office;
-use App\Domain\User\Service\CreateUserService;
-use App\Domain\User\User;
+use App\Domain\Chat\Chat;
+use App\Domain\Chat\Service\CreateChatService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Uid\Uuid;
 
-class UserBuilder
+class ChatBuilder
 {
     public function __construct(
-        private readonly CreateUserService $createUserService,
+        private readonly CreateChatService $createChatService,
         private readonly EntityManagerInterface $entityManager,
     ) {}
 
-    public function build(): User
+    public function build(): Chat
     {
-        $user = $this->createUserService->create('Liza');
+        $user = $this->createChatService->create();
 
         $this->entityManager->flush();
 

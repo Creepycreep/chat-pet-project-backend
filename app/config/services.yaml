@@ -20,3 +20,13 @@ services:
     App\Domain\User\Service\:
         resource: '../src/Domain/User/Service/'
         public: true
+
+when@test:
+    services:
+        _defaults:
+            autowire: true # Automatically injects dependencies in your services.
+            autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+        App\Tests\Builder\:
+            resource: '../tests/Builder/'
+            public: true
