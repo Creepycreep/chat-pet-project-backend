@@ -15,6 +15,15 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
+    <issueHandlers>
+        <PropertyNotSetInConstructor errorLevel="error" />
+        <UnusedClass errorLevel="suppress" />
+        <!--        <PossiblyUnusedMethod>-->
+        <!--            <errorLevel type="suppress">-->
+        <!--                <referencedMethod name="*::__construct" />-->
+        <!--            </errorLevel>-->
+        <!--        </PossiblyUnusedMethod>-->
+    </issueHandlers>
     <plugins>
         <pluginClass class="Weirdan\DoctrinePsalmPlugin\Plugin" />
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
