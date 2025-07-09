@@ -11,6 +11,9 @@ use Symfony\Component\Uid\Uuid;
 
 class UserBuilder
 {
+    /** @psalm-var non-empty-string|null $nickname */
+    private ?string $nickname = null;
+
     public function __construct(
         private readonly CreateUserService $createUserService,
         private readonly EntityManagerInterface $entityManager,
@@ -18,11 +21,20 @@ class UserBuilder
 
     public function build(): User
     {
-        $name = 'user-' . Uuid::v4()->toRfc4122();
-        $user = $this->createUserService->create($name);
+        $user = $this->createUserService->create(nickname: $this->nickname ?? 'user-' . Uuid::v4()->toRfc4122());
 
         $this->entityManager->flush();
 
         return $user;
+    }
+
+    /**
+     * @psalm-param non-empty-string $name
+     */
+    public function withName(string $name): self
+    {
+        $this->nickname = $name;
+
+        return $this;
     }
 }

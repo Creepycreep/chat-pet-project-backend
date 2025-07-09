@@ -47,7 +47,7 @@ class User
      *
      * @psalm-suppress PossiblyUnusedProperty
      */
-    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     public string $nickname;
 
     /**

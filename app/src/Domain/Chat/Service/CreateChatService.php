@@ -21,7 +21,6 @@ readonly class CreateChatService
 
         foreach ($participants as $participant) {
             $chat->participants->add($participant);
-            $participant->chats->add($chat);
         }
 
         $this->repository->add($chat);

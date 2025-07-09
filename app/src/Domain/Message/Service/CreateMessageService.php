@@ -11,9 +11,7 @@ use App\Domain\User\User;
 
 readonly class CreateMessageService
 {
-    public function __construct(public MessageRepository $repository)
-    {
-    }
+    public function __construct(public MessageRepository $repository) {}
 
     /**
      * @psalm-param non-empty-string $text
