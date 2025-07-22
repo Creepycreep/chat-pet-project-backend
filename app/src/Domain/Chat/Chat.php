@@ -2,26 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Message;
+namespace App\Domain\Chat;
 
-use App\Domain\Chat\Chat;
+use App\Domain\Message\Message;
 use App\Domain\User\User;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity]
-class Message
+class Chat
 {
-    /** @psalm-suppress PossiblyUnusedProperty */
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'messages')]
-    public User $author;
-
-    /** @psalm-suppress PossiblyUnusedProperty */
-    #[ORM\ManyToOne(targetEntity: Chat::class, inversedBy: 'messages')]
-    public Chat $chat;
-
     /** @psalm-suppress PossiblyUnusedProperty */
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     public DateTimeImmutable $createdAt;
@@ -32,25 +26,29 @@ class Message
     public Uuid $id;
 
     /**
-     * @psalm-var non-empty-string $text
+     * @psalm-var Collection<int,Message> $messages
      *
      * @psalm-suppress PossiblyUnusedProperty
      */
-    #[ORM\Column(type: Types::TEXT)]
-    public string $text;
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'chat')]
+    public Collection $messages;
 
     /**
-     * @psalm-param non-empty-string $text
+     * @psalm-var Collection<int<2, max>,User> $participants
      *
      * @psalm-suppress PossiblyUnusedProperty
      */
-    public function __construct(string $text, Chat $chat, User $author)
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'chats')]
+    public Collection $participants;
+
+    /**
+     * @psalm-suppress PossiblyUnusedProperty
+     */
+    public function __construct()
     {
         $this->id = Uuid::v4();
         $this->createdAt = new DateTimeImmutable();
-
-        $this->chat = $chat;
-        $this->author = $author;
-        $this->text = $text;
+        $this->messages = new ArrayCollection();
+        $this->participants = new ArrayCollection();
     }
 }
