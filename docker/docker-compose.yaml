@@ -13,18 +13,6 @@ services:
       - target: 5432
         published: 5432
 
-  #  php-fpm:
-  #    container_name: ${COMPOSE_PROJECT_NAME}-php-fpm
-  #    user: "1000:1000"
-  #    build:
-  #      context: ./../
-  #      dockerfile: ./docker/php/fpm/Dockerfile
-  #    volumes:
-  #      - type: bind
-  #        source: ./../app/
-  #        target: /var/www/html/
-  #    env_file: ./../app/.env.test
-
   php-cli:
     container_name: ${COMPOSE_PROJECT_NAME}-php-cli
     user: "1000:1000"
@@ -46,13 +34,3 @@ services:
         source: ./../app/
         target: /app
 
-  nginx:
-    container_name: ${COMPOSE_PROJECT_NAME}-nginx
-    build:
-      context: ./
-      dockerfile: nginx/Dockerfile
-    environment:
-      PHP_FPM_HOST: php-fpm
-    ports:
-      - target: 80
-        published: 8080
